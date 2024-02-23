@@ -1,0 +1,123 @@
+let db;
+
+// Create a new db request for a "BudgetDB" database.
+const request = window.indexedDB.open("BudgetDB", 1);
+
+request.onupgradeneeded = function (event) {
+    // create object store called "BudgetDB" and set autoIncrement to true
+    db = event.target.result;
+    const BudgetStore = db.createObjectStore("BudgetDB", {
+        autoIncrement: true
+    });
+};
+
+
+request.onerror = function (event) {
+    console.log(event.target.errorCode);
+};
+
+function checkDatabase() {
+    console.log('check db invoked');
+}
+
+
+function saveRecord(record) {
+    // create a transaction on the pending db with readwrite access
+    const transaction = db.transaction(["BudgetDB"], "readwrite");
+    const BudgetStore = transaction.objectStore("BudgetDB");
+    BudgetStore.add(record);
+
+}
+
+
+
+
+//Open a transaction on your Budget db
+function checkDatabase() {
+    let transaction = db.transaction(["BudgetDB"], "readwrite");
+    const BudgetStore = transaction.objectStore("BudgetDB");
+    var getAll = BudgetStore.getAll();
+
+
+    // If the request was successful
+    getAll.onsuccess = function () {
+        // If there are items in the store, we need to bulk add them when we are back online
+        if (getAll.result.length > 0) {
+            fetch('/api/transaction/bulk', {
+                method: 'POST',
+                body: JSON.stringify(getAll.result),
+                headers: {
+                    Accept: 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.length > 0) {
+                        transaction = db.transaction(["BudgetDB"], "readwrite");
+                        const newStore = transaction.objectStore("BudgetDB");
+                        // Clear existing entries because our bulk add was successful
+                        newStore.clear();
+                        console.log('Clearing store 🧹');
+                    }
+                });
+        }
+    };
+}
+
+request.onsuccess = function (event) {
+    console.log('success');
+    db = event.target.result;
+
+    // Check if app is online before reading from db
+    if (navigator.onLine) {
+        console.log('Backend online! 🗄️');
+        checkDatabase();
+    }
+};
+
+// Listen for app coming back online
+window.addEventListener('online', checkDatabase);
+
+
+
+// // also send to server
+// fetch("/api/transaction", {
+//     method: "POST",
+//     body: JSON.stringify(transaction),
+
+//     headers: {
+//       Accept: "application/json, text/plain, */*",
+//       "Content-Type": "application/json"
+//     }
+//   })
+
+   
+//     // with error handling
+//     .then(response => {
+//       if (!response.ok) {
+//         throw new Error('Network response was not ok');
+//       }
+//       return response.json();
+//     })
+//     .then(data => {
+//       if (data.errors) {
+//         errorEl.textContent = "Missing Information";
+//       }
+//       else {
+//         // clear form
+//         nameEl.value = "";
+//         amountEl.value = "";
+//         // Remove the row associated with the transaction from the table
+//         // removeTransactionRow(transaction);
+//       }
+//     })
+
+//     .catch(err => {
+//       // fetch failed, so save in indexed db
+//       saveRecord(transaction);
+
+//       // clear form
+//       nameEl.value = "";
+//       amountEl.value = "";
+//     });
