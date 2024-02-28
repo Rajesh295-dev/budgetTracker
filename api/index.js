@@ -9,13 +9,7 @@ const PORT = process.env.PORT || 3000;
 
 const app = express();
 
-const corsOptions = {
-  origin: "https://new-budget-tracker.vercel.app", // Allow requests from this origin
-  methods: "GET,POST,PUT,DELETE", // Allow these HTTP methods
-  optionsSuccessStatus: 200, // Return 200 for preflight requests
-};
-
-app.use(cors(corsOptions));
+//CORS goes here
 
 app.use(logger("dev"));
 
@@ -46,6 +40,7 @@ mongoose.connect(process.env.MONGODB_URL || "mongodb://localhost/budget", {
 // routes
 // app.use(require("./api/api"));
 app.use(require("./api"));
+app.use(require("./auth"));
 
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);

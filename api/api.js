@@ -27,17 +27,20 @@ router.post("/api/transaction/bulk", ({ body }, res) => {
     });
 });
 
-// Retrieve all transactions
 router.get("/api/transaction", (req, res) => {
-  console.log("GET request received for all transactions");
-  Transaction.find({}).sort({ date: -1 })
-    .then(dbTransaction => {
-      res.json(dbTransaction);
+
+  // Find transactions belonging to the logged-in user
+  const userId = req.query.userId;
+  Transaction.find({ user: userId })
+    .sort({ date: -1 })
+    .then(dbTransactions => {
+      res.json(dbTransactions);
     })
     .catch(err => {
-      res.status(404).json(err);
+      res.status(500).json({ error: err.message });
     });
 });
+
 
 // Update a transaction
 router.put("/api/transaction/:id", (req, res) => {

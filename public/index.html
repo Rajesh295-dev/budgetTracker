@@ -27,6 +27,59 @@
 
   <body>
     <div class="wrapper">
+      <div class="header-btn">
+        <button class="register-btn">Register</button>
+        <!-- <button class="login-btn" onclick="toggleAuth()">Login</button> -->
+        <span class="userName">Welcome, Guest!</span>
+        <button class="login-btn">Login</button>
+        <button class="logout-btn" style="display: none" onclick="logoutUser()">
+          Logout
+        </button>
+      </div>
+
+      <div class="auth-wrapper">
+        <div class="form-wrapper">
+          <h2 class="close-btn">X</h2>
+          <form class="register-form">
+            <h3>Register</h3>
+            <input type="text" id="username" placeholder="Username" required />
+            <input
+              type="email"
+              id="register-email"
+              placeholder="Email"
+              required
+            />
+
+            <input
+              type="password"
+              id="register-password"
+              placeholder="Password"
+              required
+            />
+            <input
+              type="password"
+              id="retype-password"
+              placeholder="Retype Password"
+              required
+            />
+            <button class="register-btn" type="submit">Register</button>
+            <!-- <button class="login-btn" type="submit">Login</button> -->
+          </form>
+
+          <form class="login-form" id="login-form">
+            <h3>Login</h3>
+            <input type="email" id="login-email" placeholder="Email" required />
+            <input
+              type="password"
+              id="login-password"
+              placeholder="Password"
+              required
+            />
+            <button class="login-btn" type="submit">login</button>
+            <!-- <button class="register-btn" type="submit">Register</button> -->
+          </form>
+        </div>
+      </div>
       <div class="total">
         <div class="total">Your Total: $<span id="total">0</span></div>
       </div>

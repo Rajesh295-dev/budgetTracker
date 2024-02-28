@@ -2,19 +2,73 @@ let transactions = [];
 let myChart;
 
 
+// Function to update the UI based on the transactions array
+function updateUI() {
+  populateTotal();
+  populateTable();
+  populateChart();
+}
 
-fetch("/api/transaction")
-  .then(response => {
-    return response.json();
-  })
+document.getElementById('login-form').addEventListener('submit', function (event) {
+  // event.preventDefault(); // Prevent form submission
+  updateUI();
+});
+
+function clearUI() {
+  clearTotal();
+  clearTable();
+  clearChart();
+}
+
+function clearTotal() {
+  document.getElementById('total').textContent = '';
+}
+
+function clearTable() {
+  const tbody = document.querySelector('#tbody');
+  tbody.innerHTML = ''; // Clear all rows
+
+}
+
+function clearChart() {
+  const canvas = document.getElementById('myChart');
+  const context = canvas.getContext('2d');
+  context.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+document.querySelector('.logout-btn').addEventListener('click', function () {
+  clearUI();
+});
+
+
+
+// Check if user is logged in
+const userData = getUserData();
+const userId = userData ? userData._id : null;
+
+// Fetch transactions only if user is logged in
+const transactionFetchPromise = userId ?
+  fetch(`/api/transaction?userId=${userId}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to fetch transactions');
+      }
+      return response.json();
+    }) :
+  Promise.resolve([]);
+
+// Process the fetched transactions
+transactionFetchPromise
   .then(data => {
-    // save db data on global variable
+    // Save db data to global variable
     transactions = data;
-
-    populateTotal();
-    populateTable();
-    populateChart();
+    // Update the UI based on the initial data
+    updateUI();
+  })
+  .catch(error => {
+    console.error('login to see the trascations:', error);
   });
+
 
 function populateTotal() {
   // reduce transaction amounts to a single total value
@@ -116,7 +170,7 @@ function updateTransaction(transactionId) {
     .then(response => response.json())
     .then(data => {
       // Handle the response from the server (if needed)
-      console.log('Transaction updated successfully:', data);
+      // console.log('Transaction updated successfully:', data);
     })
     .catch(error => {
       console.error('Error updating transaction:', error);
@@ -165,6 +219,9 @@ function populateChart() {
   });
 }
 
+
+
+
 function sendTransaction(isAdding) {
 
   let nameEl = document.querySelector("#t-name");
@@ -180,12 +237,26 @@ function sendTransaction(isAdding) {
     errorEl.textContent = "";
   }
 
+  // Retrieve userId from sessionStorage
+  const userDataString = sessionStorage.getItem('userData');
+  const userData = userDataString ? JSON.parse(userDataString) : null;
+  const userId = userData ? userData._id : null;
+
+  // Check if userId is defined
+  if (!userId) {
+    console.error('User ID not found. Please log in.');
+    return;
+  }
+
   // create record
   let transaction = {
     name: nameEl.value,
     value: amountEl.value,
+    user: userId,
     date: new Date().toISOString()
   };
+
+  // console.log("Transaction value:", transaction);
 
   // if subtracting funds, convert amount to negative number
   if (!isAdding) {
@@ -227,7 +298,7 @@ function sendTransaction(isAdding) {
     })
     .catch(err => {
       // fetch failed, so save in indexed db
-      // console.log("Items saved in IndexDB :", transaction);
+      console.log("Items saved in IndexDB :", transaction);
       saveRecord(transaction);
 
       // clear form
@@ -249,6 +320,9 @@ document.querySelector("#sub-btn").onclick = function (event) {
   event.preventDefault();
 };
 
+
+// Listen for updates from the server and update the UI accordingly
+window.addEventListener('updateUI', updateUI);
 
 
 
