@@ -44,7 +44,8 @@ mongoose.connect(process.env.MONGODB_URL || "mongodb://localhost/budget", {
   console.error("Error connecting to MongoDB:", error);
 });
 // routes
-app.use(require("./api/api"));
+// app.use(require("./api/api"));
+app.use(require("./api"));
 
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);
