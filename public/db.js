@@ -3,8 +3,9 @@ let db;
 // Create a new db request for a "BudgetDB" database.
 const request = window.indexedDB.open("BudgetDB", 1);
 
+// create object store called "BudgetDB" and set autoIncrement to true
 request.onupgradeneeded = function (event) {
-    // create object store called "BudgetDB" and set autoIncrement to true
+
     db = event.target.result;
     db.createObjectStore("BudgetDB", {
         autoIncrement: true
@@ -35,7 +36,7 @@ function checkDatabase() {
 
 
 function saveRecord(record) {
-    // create a transaction on the pending db with readwrite access
+    //create a transaction on the pending db with readwrite access
     const transaction = db.transaction(["BudgetDB"], "readwrite");
     const BudgetStore = transaction.objectStore("BudgetDB");
     BudgetStore.add(record);
@@ -77,7 +78,6 @@ function checkDatabase() {
 
     };
 }
-
 
 // Listen for app coming back online
 window.addEventListener('online', checkDatabase);
