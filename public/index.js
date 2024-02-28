@@ -3,7 +3,7 @@ let myChart;
 
 
 
-fetch("https://new-budget-tracker.vercel.app/api/transaction")
+fetch("/api/transaction")
   .then(response => {
     return response.json();
   })
