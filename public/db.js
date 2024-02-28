@@ -19,12 +19,12 @@ request.onerror = function (event) {
 };
 
 request.onsuccess = function (event) {
-    console.log('success');
+    // console.log('success');
     db = event.target.result;
 
     // Check if app is online before reading from db
     if (navigator.onLine) {
-        console.log('Backend online! 🗄️');
+        // console.log('Backend online! 🗄️');
         checkDatabase();
     }
 };
