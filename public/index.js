@@ -41,6 +41,11 @@ document.querySelector('.logout-btn').addEventListener('click', function () {
 });
 
 
+function getUserData() {
+  const userDataString = sessionStorage.getItem('userData');
+  return userDataString ? JSON.parse(userDataString) : null;
+
+}
 
 // Check if user is logged in
 const userData = getUserData();
@@ -117,8 +122,6 @@ function populateTable() {
 }
 
 
-
-
 function deleteTransaction(transactionId) {
   if (!transactionId) {
     console.error('Transaction ID is undefined');
@@ -179,8 +182,6 @@ function updateTransaction(transactionId) {
 
 
 
-
-
 function populateChart() {
   // copy array and reverse it
   let reversed = transactions.slice().reverse();
@@ -220,10 +221,7 @@ function populateChart() {
 }
 
 
-
-
 function sendTransaction(isAdding) {
-
   let nameEl = document.querySelector("#t-name");
   let amountEl = document.querySelector("#t-amount");
   let errorEl = document.querySelector(".form .error");
@@ -237,11 +235,9 @@ function sendTransaction(isAdding) {
     errorEl.textContent = "";
   }
 
-  // Retrieve userId from sessionStorage
-  const userDataString = sessionStorage.getItem('userData');
-  const userData = userDataString ? JSON.parse(userDataString) : null;
+  // Check if user is logged in
+  const userData = getUserData();
   const userId = userData ? userData._id : null;
-
   // Check if userId is defined
   if (!userId) {
     console.error('User ID not found. Please log in.');

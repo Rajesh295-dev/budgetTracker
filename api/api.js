@@ -5,6 +5,7 @@ const Transaction = require("../models/transaction.js");
 
 // Create a new transaction
 router.post("/api/transaction", ({ body }, res) => {
+  // console.log("post request", body)
   Transaction.create(body)
     .then(dbTransaction => {
       res.json(dbTransaction);

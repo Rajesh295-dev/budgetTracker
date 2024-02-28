@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta name="theme-color" content="#317EFB" />
+
     <link
       rel="shortcut icon"
       href="icons/icon-192x192.png"
@@ -80,6 +81,7 @@
           </form>
         </div>
       </div>
+
       <div class="total">
         <div class="total">Your Total: $<span id="total">0</span></div>
       </div>
@@ -100,7 +102,7 @@
       </div>
 
       <div class="transactions">
-        <table>
+        <table id="table">
           <thead>
             <th>Transaction</th>
             <th>Amount</th>
@@ -113,6 +115,8 @@
       <canvas id="myChart"></canvas>
     </div>
 
+    <script src="btn-toggle.js"></script>
+    <script src="authhandler.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script src="db.js"></script>
     <script src="index.js"></script>
