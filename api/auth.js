@@ -25,7 +25,7 @@ router.post("/auth/register", async (req, res) => {
 
 //LOGIN
 router.post("/auth/login", async (req, res) => {
-    // console.log("Request login Body:", req.body);
+    console.log("Request login Body:", req.body);
     const inputPassword = req.body.password;
     // console.log("user password ", inputPassword)
 
