@@ -1,15 +1,8 @@
 {
-  "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "./server.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/api.js"
+      "source": "/api/:path*",
+      "destination": "https://new-budget-tracker.vercel.app/:path*"
     }
   ]
 }
