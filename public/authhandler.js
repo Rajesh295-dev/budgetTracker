@@ -112,7 +112,7 @@ function loginUser(event) {
         email,
         password
     };
-
+    console.log("loginData", loginData)
     // Send a POST request to your login endpoint
     fetch('https://new-budget-tracker.vercel.app/auth/login', {
         method: 'POST',
