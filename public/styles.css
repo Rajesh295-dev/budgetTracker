@@ -56,10 +56,12 @@ tr:nth-child(even) {
 }
 .login-btn {
   cursor: pointer;
+  align-items: center;
   color: #6666ff;
 }
 .logout-btn {
   cursor: pointer;
+  align-items: center;
   color: #6666ff;
 }
 .auth-wrapper {
