@@ -23,7 +23,7 @@ function registerUser(event) {
 
 
     // Send a POST request to your register endpoint
-    fetch('/auth/register', {
+    fetch('https://new-budget-tracker.vercel.app/auth/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -114,7 +114,7 @@ function loginUser(event) {
     };
 
     // Send a POST request to your login endpoint
-    fetch('/auth/login', {
+    fetch('https://new-budget-tracker.vercel.app/auth/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
