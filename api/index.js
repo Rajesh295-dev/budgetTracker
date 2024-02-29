@@ -1,7 +1,6 @@
 const express = require("express");
 const logger = require("morgan");
 const mongoose = require("mongoose");
-const cors = require("cors");
 const compression = require("compression");
 require('dotenv').config();
 
@@ -9,14 +8,8 @@ const PORT = process.env.PORT || 3000;
 
 const app = express();
 
-//CORS goes here
-const corsOptions = {
-  origin: "https://new-budget-tracker.vercel.app", // Allow requests from this origin
-  methods: "GET,POST,PUT,DELETE", // Allow these HTTP methods
-  optionsSuccessStatus: 200, // Return 200 for preflight requests
-};
+//CORS goes here if needed
 
-app.use(cors(corsOptions));
 
 app.use(logger("dev"));
 
