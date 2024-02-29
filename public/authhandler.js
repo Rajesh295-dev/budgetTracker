@@ -35,9 +35,10 @@ function registerUser(event) {
                 throw new Error('Registration failed');
             }
             alert('Registration successful');
-            // Optionally, redirect the user to a login page or dashboard
+
             // Close the register form
             document.querySelector('.register-form').style.display = 'none';
+            document.querySelector('.auth-wrapper').style.display = 'none';
         })
         .catch(error => {
             console.error('Error:', error);
