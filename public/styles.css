@@ -211,6 +211,6 @@ tr:nth-child(even) {
   }
 
   .wrapper {
-    height: 85vh;
+    height: fit-content;
   }
 }

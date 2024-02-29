@@ -9,8 +9,6 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 //CORS goes here if needed
-
-
 app.use(logger("dev"));
 
 
